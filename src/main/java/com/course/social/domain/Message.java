@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-public class Message {
+public class  Message {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
