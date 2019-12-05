@@ -1,4 +1,4 @@
-package com.course.social;
+package com.course.social.controller;
 
 import com.course.social.domain.Message;
 import com.course.social.repos.MessageRepo;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 @Controller
-public class ControllerGr {
+public class MainController {
     @Autowired
     private MessageRepo messageRepo;
 
