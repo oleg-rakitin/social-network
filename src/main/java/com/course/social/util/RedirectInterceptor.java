@@ -1,4 +1,4 @@
-package com.example.sweater.util;
+package com.course.social.util;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

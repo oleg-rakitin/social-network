@@ -2,7 +2,9 @@ package com.course.social.controller;
 
 import com.course.social.domain.Message;
 import com.course.social.domain.User;
+import com.course.social.domain.dto.MessageDto;
 import com.course.social.repos.MessageRepo;
+import com.course.social.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
