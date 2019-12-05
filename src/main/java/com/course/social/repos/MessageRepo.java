@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface MessageRepo extends CrudRepository<Message, Long> {
 
-    @Query("select new com.example.sweater.domain.dto.MessageDto(" +
+    @Query("select new com.course.social.domain.dto.MessageDto(" +
             "   m, " +
             "   count(ml), " +
             "   sum(case when ml = :user then 1 else 0 end) > 0" +
@@ -20,7 +20,7 @@ public interface MessageRepo extends CrudRepository<Message, Long> {
             "group by m")
     Page<MessageDto> findAll(Pageable pageable, @Param("user") User user);
 
-    @Query("select new com.example.sweater.domain.dto.MessageDto(" +
+    @Query("select new com.course.social.domain.dto.MessageDto(" +
             "   m, " +
             "   count(ml), " +
             "   sum(case when ml = :user then 1 else 0 end) > 0" +
@@ -30,7 +30,7 @@ public interface MessageRepo extends CrudRepository<Message, Long> {
             "group by m")
     Page<MessageDto> findByTag(@Param("tag") String tag, Pageable pageable, @Param("user") User user);
 
-    @Query("select new com.example.sweater.domain.dto.MessageDto(" +
+    @Query("select new com.course.social.domain.dto.MessageDto(" +
             "   m, " +
             "   count(ml), " +
             "   sum(case when ml = :user then 1 else 0 end) > 0" +
