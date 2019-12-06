@@ -40,9 +40,19 @@ public class MessageController {
     @Value("${upload.path}")
     private String uploadPath;
 
-    @GetMapping("/")
-    public String greeting(Map<String, Object> model) {
+    @GetMapping("/home")
+    public String home(Map<String,Object> model){
         return "greeting";
+    }
+
+    @GetMapping("/")
+    public String greeting(Map<String, Object> model,
+                           @AuthenticationPrincipal User user) {
+        if (user != null) {
+            return "greeting";
+        } else {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/main")
