@@ -40,10 +40,20 @@ public class MessageController {
     @Value("${upload.path}")
     private String uploadPath;
 
+
+    @GetMapping("/error")
+    public String error(Map<String, Object> model){
+        return "redirect:/home";
+    }
+
     @GetMapping("/home")
     public String home(Map<String,Object> model,
                        @AuthenticationPrincipal User user){
-        model.put("username", user.getUsername());
+        if (user != null) {
+            model.put("username", user.getUsername());
+        } else {
+            model.put("username","гость");
+        }
         return "greeting";
     }
 

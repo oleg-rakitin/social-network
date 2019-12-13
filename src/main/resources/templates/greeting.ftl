@@ -12,7 +12,7 @@
     <br /><strong>Авторы:</strong>
     <br />
     <br /><a href="https://vk.com/beautifulcraftrus" target="_blank" rel="noopener">Oleg Rakitin</a> - FullStack dev
-    <br /><a href="https://vk.com/id77055360" target="_blank" rel="noopener">Vlad Eremenko</a> - Java dev
+    <br /><a href="https://vk.com/id77055360" target="_blank" rel="noopener">Vlad Eremenko</a> - FullStack dev
     <br /><a href="https://vk.com/eamoff" target="_blank" rel="noopener">Amiraslanov Elmar</a> - FullStack dev</p>
 <p></p>
 <p><img src="https://cdn-images-1.medium.com/max/1600/0*kmxtSPw6uiyVsUho" alt="" width="623" height="615" /></p>
