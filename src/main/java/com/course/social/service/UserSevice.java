@@ -109,8 +109,13 @@ public class UserSevice implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public void updateProfile(User user, String password, String email) {
+    public boolean updateProfile(User user,String oldPassword, String newPassword, String email) {
         String userEmail = user.getEmail();
+
+        String newPassEncoded = passwordEncoder.encode(oldPassword);
+        if(!passwordEncoder.matches(oldPassword,user.getPassword())){
+            return false;
+        }
 
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
                 (userEmail != null && !userEmail.equals(email));
@@ -123,8 +128,8 @@ public class UserSevice implements UserDetailsService {
             }
         }
 
-        if (!StringUtils.isEmpty(password)) {
-            user.setPassword(passwordEncoder.encode(password));
+        if (!StringUtils.isEmpty(newPassword)) {
+            user.setPassword(passwordEncoder.encode(newPassword));
         }
 
         userRepo.save(user);
@@ -132,6 +137,7 @@ public class UserSevice implements UserDetailsService {
         if (isEmailChanged) {
             sendMessage(user);
         }
+        return true;
     }
 
     public void subscribe(User currentUser, User user) {

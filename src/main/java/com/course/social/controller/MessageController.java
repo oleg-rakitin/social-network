@@ -41,7 +41,9 @@ public class MessageController {
     private String uploadPath;
 
     @GetMapping("/home")
-    public String home(Map<String,Object> model){
+    public String home(Map<String,Object> model,
+                       @AuthenticationPrincipal User user){
+        model.put("username", user.getUsername());
         return "greeting";
     }
 
@@ -49,6 +51,7 @@ public class MessageController {
     public String greeting(Map<String, Object> model,
                            @AuthenticationPrincipal User user) {
         if (user != null) {
+            model.put("username", user.getUsername());
             return "greeting";
         } else {
             return "redirect:/login";

@@ -58,10 +58,16 @@ public class UserController {
     @PostMapping("profile")
     public String updateProfile(
             @AuthenticationPrincipal User user,
-            @RequestParam String password,
-            @RequestParam String email
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword,
+            @RequestParam String email,
+            Model model
     ) {
-        userSevice.updateProfile(user, password, email);
+        if (!userSevice.updateProfile(user, oldPassword, newPassword, email)) {
+            model.addAttribute("username", user.getUsername());
+            model.addAttribute("oldPasswordError", "Invalid old password");
+            return "profile";
+        }
 
         return "redirect:/user/profile";
     }

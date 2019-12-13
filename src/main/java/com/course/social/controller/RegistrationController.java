@@ -72,11 +72,12 @@ public class RegistrationController {
         }
 
         if (!userSevice.addUser(user)) {
-            model.addAttribute("usernameError", "User exists!");
+            model.addAttribute("usernameError", "Данный логин уже зарегистрирован в системе, выберите другой");
             return "registration";
         }
 
-        return "redirect:/login";
+        return "redirect:/home";
+        //return "redirect:/login";
     }
 
     @GetMapping("/activate/{code}")
