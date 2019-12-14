@@ -18,10 +18,11 @@ public class UserController {
     @Autowired
     private UserSevice userSevice;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+   // @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public String userList(Model model) {
+    public String userList(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("users", userSevice.findAll());
+        model.addAttribute("user", user);
 
         return "userList";
     }
