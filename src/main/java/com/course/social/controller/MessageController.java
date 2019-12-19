@@ -1,8 +1,10 @@
 package com.course.social.controller;
 
+import com.course.social.domain.FeedBack;
 import com.course.social.domain.Message;
 import com.course.social.domain.User;
 import com.course.social.domain.dto.MessageDto;
+import com.course.social.repos.FeedBackRepo;
 import com.course.social.repos.MessageRepo;
 import com.course.social.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private FeedBackRepo feedBackRepo;
+
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -55,6 +60,40 @@ public class MessageController {
             model.put("username","гость");
         }
         return "greeting";
+    }
+
+    @GetMapping("/feedback")
+    public String feedback(Map<String,Object> model,
+                           @AuthenticationPrincipal User user,
+                           @RequestParam("name") String name,
+                           @RequestParam("email") String email,
+                           @RequestParam("phone") String phone,
+                           @RequestParam("message") String message) {
+
+        System.out.println(name);
+        System.out.println(message);
+        if (user != null) {
+            model.put("username", user.getUsername());
+        } else {
+            model.put("username", "гость");
+        }
+
+        if(name.equals("")||email.equals("")||phone.equals("")||message.equals("")) {
+            model.put("errorFeedback", "ERROR!");
+            return "greeting";
+        }
+
+        FeedBack feedBack = new FeedBack();
+        feedBack.setName(name);
+        feedBack.setPhone(phone);
+        feedBack.setEmail(email);
+        feedBack.setMessage(message);
+
+        feedBackRepo.save(feedBack);
+
+        model.put("errorFeedback","SUCCESS");
+
+        return "redirect:/";
     }
 
     @GetMapping("/")
