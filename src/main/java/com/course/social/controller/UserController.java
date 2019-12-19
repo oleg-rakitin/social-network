@@ -30,10 +30,18 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model) {
+        Role[] roles = new Role[1];
+        roles[0] = Role.ADMIN;
         model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
+        model.addAttribute("roles", roles);
 
         return "userEdit";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/save")
+    public String saveUsers() {
+        return "redirect:/user";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -52,6 +60,7 @@ public class UserController {
     public String getProfile(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
+        model.addAttribute("user", user);
 
         return "profile";
     }
@@ -70,7 +79,7 @@ public class UserController {
             return "profile";
         }
 
-        return "redirect:/user/profile";
+        return "redirect:/home";
     }
 
     @GetMapping("subscribe/{user}")

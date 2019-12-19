@@ -24,4 +24,7 @@ List of users
     </#list>
     </tbody>
 </table>
+    <form action="/user/save" method="get">
+         <button type="submit">Save</button>
+      </form>
 </@c.page>

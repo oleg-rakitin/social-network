@@ -1,3 +1,4 @@
+<#include "parts/security.ftl">
 <#import "parts/common.ftl" as c>
 
 <@c.page>
@@ -34,6 +35,8 @@
     </div>
 </div>
 <#if isCurrentUser>
+    <#include "parts/messageEdit.ftl" />
+<#elseif isAdmin>
     <#include "parts/messageEdit.ftl" />
 </#if>
 

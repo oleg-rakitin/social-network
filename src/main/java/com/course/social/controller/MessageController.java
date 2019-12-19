@@ -2,6 +2,7 @@ package com.course.social.controller;
 
 import com.course.social.domain.FeedBack;
 import com.course.social.domain.Message;
+import com.course.social.domain.Role;
 import com.course.social.domain.User;
 import com.course.social.domain.dto.MessageDto;
 import com.course.social.repos.FeedBackRepo;
@@ -56,6 +57,7 @@ public class MessageController {
                        @AuthenticationPrincipal User user){
         if (user != null) {
             model.put("username", user.getUsername());
+            model.put("user", user);
         } else {
             model.put("username","гость");
         }
@@ -101,6 +103,7 @@ public class MessageController {
                            @AuthenticationPrincipal User user) {
         if (user != null) {
             model.put("username", user.getUsername());
+            model.put("user", user);
             return "greeting";
         } else {
             return "redirect:/login";
@@ -119,6 +122,7 @@ public class MessageController {
         model.addAttribute("page", page);
         model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
+        model.addAttribute("user", user);
 
         return "main";
     }
@@ -189,6 +193,7 @@ public class MessageController {
         model.addAttribute("message", message);
         model.addAttribute("isCurrentUser", currentUser.equals(author));
         model.addAttribute("url", "/user-messages/" + author.getId());
+        model.addAttribute("user", currentUser);
 
         return "userMessages";
     }
@@ -202,7 +207,8 @@ public class MessageController {
             @RequestParam("tag") String tag,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        if (message.getAuthor().equals(currentUser)) {
+        if (message.getAuthor().equals(currentUser)
+                ||currentUser.getRoles().contains(Role.ADMIN)) {
             if (!StringUtils.isEmpty(text)) {
                 message.setText(text);
             }

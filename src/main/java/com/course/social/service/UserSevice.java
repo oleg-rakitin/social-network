@@ -106,6 +106,12 @@ public class UserSevice implements UserDetailsService {
             }
         }
 
+        if(!user.getRoles().contains(Role.USER)){
+            Set<Role> roles1 = user.getRoles();
+            roles1.add(Role.USER);
+            user.setRoles(roles1);
+        }
+
         userRepo.save(user);
     }
 

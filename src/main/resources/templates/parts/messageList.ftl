@@ -28,6 +28,10 @@
                         <a class="col btn btn-primary" href="/user-messages/${message.author.id}?message=${message.id}">
                             Edit
                         </a>
+                     <#elseif isAdmin>
+                        <a class="col btn btn-primary" href="/user-messages/${message.author.id}?message=${message.id}">
+                            Edit [ADMIN PERM]
+                        </a>
                     </#if>
                 </div>
             </div>
