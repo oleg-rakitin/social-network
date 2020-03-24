@@ -3,20 +3,15 @@ package com.course.social.controller;
 import com.course.social.domain.Role;
 import com.course.social.domain.User;
 import com.course.social.domain.dto.CaptchaResponseDto;
-import com.course.social.repos.UserRepo;
 import com.course.social.service.UserSevice;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,25 +20,18 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.any;
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -62,14 +50,17 @@ public class RegistrationControllerTest {
     @Autowired
     RegistrationController registrationController;
 
+    @MockBean
+    UserSevice userSevice;
+
     @Test
     public void registration() throws Exception {
         this.mockMvc.perform(get("/registration"))
                 .andDo(print()).andExpect(status().isOk());
     }
 
-    @Mock
-    private UserRepo userRepo;
+    //@MockBean
+    //private UserRepo userRepo;
 
     public static String asJsonString(final Object obj) {
         try {
@@ -91,20 +82,28 @@ public class RegistrationControllerTest {
         user.setRoles(roles);
 
         CaptchaResponseDto captchaResponseDto1fa = new CaptchaResponseDto();
-        captchaResponseDto1fa.setSuccess(false);
+        captchaResponseDto1fa.setSuccess(true);
         when(restTemplate.postForObject(anyString(),ArgumentMatchers.any(),ArgumentMatchers.any())).thenReturn(captchaResponseDto1fa);
 
-        when(userRepo.findByUsername(anyString())).thenReturn(new User());
-        this.mockMvc.perform(post("/registration").param("password2","password2")
-                .param("g-recaptcha-response","g-recaptcha-response").content(asJsonString(user)).with(csrf()))
+        when(userSevice.addUser(ArgumentMatchers.any())).thenReturn(false);
+        this.mockMvc.perform(post("/registration").param("password2","$2a$08$fNUHI3FnO3cbT6VAcClJOOsIq93f2101ud2RAKiZFAh7Y2h.oFRzC")
+                .param("g-recaptcha-response","g-recaptcha-response").param("user","2").with(csrf()))
                 .andDo(print()).andExpect(status().isOk());
         this.mockMvc.perform(post("/registration").param("password2","")
-                .param("g-recaptcha-response","g-recaptcha-response").content(asJsonString(user)).with(csrf()))
+                .param("g-recaptcha-response","g-recaptcha-response").param("user","1").with(csrf()))
                 .andDo(print()).andExpect(status().isOk());
+
+        when(userSevice.addUser(ArgumentMatchers.any())).thenReturn(true);
+        this.mockMvc.perform(post("/registration").param("password2","$2a$08$fNUHI3FnO3cbT6VAcClJOOsIq93f2101ud2RAKiZFAh7Y2h.oFRzC")
+                .param("g-recaptcha-response","g-recaptcha-response").param("user","2").with(csrf()))
+                .andDo(print()).andExpect(status().is3xxRedirection());
+
     }
 
     @Test
     public void activate() throws Exception {
+        when(userSevice.activateUser("dru_activate")).thenReturn(true);
+        when(userSevice.activateUser("dru_activate1")).thenReturn(false);
         this.mockMvc.perform(get("/activate/{code}","dru_activate").with(csrf()))
                 .andDo(print()).andExpect(status().isOk());
 

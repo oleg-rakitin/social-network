@@ -36,6 +36,7 @@ public class PojoTests {
                 .areWellImplemented();
     }
 
+
     @Test
     public void gettersToString() {
         Assertions.assertPojoMethodsForAll(

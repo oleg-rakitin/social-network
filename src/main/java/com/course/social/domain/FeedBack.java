@@ -2,7 +2,6 @@ package com.course.social.domain;
 
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "feedback")
@@ -24,12 +23,12 @@ public class FeedBack  {
     @Column(name = "phone")
     private String phone;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

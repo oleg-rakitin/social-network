@@ -50,6 +50,8 @@ public class UserSevice implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setSubscribers(Collections.emptySet());
+        user.setSubscriptions(Collections.emptySet());
         if (user.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {

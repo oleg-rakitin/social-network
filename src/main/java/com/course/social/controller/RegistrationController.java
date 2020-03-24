@@ -59,13 +59,15 @@ public class RegistrationController {
         }
 
         if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
+            model.addAttribute("passwordError", "Passwords are different!");
             return "registration";
         }
 
         if (isConfirmEmpty || bindingResult.hasErrors() || !response.isSuccess()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
 
-             model.mergeAttributes(errors);
+            model.mergeAttributes(errors);
+            return "registration";
         }
         if (!userSevice.addUser(user)) {
             model.addAttribute("usernameError", "Данный логин уже зарегистрирован в системе, выберите другой");

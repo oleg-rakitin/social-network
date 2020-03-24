@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class UserTest {
 
@@ -60,8 +60,37 @@ public class UserTest {
         assertTrue(CollectionUtils.isEqualCollection(roles, user.getRoles()));
     }
 
+    @Test
+    public void equals(){
+        User user = new User();
+        user.setUsername("test");
+        user.setId(1L);
+        user.setEmail("test@tet");
+        User user1= new User();
+        user1.setUsername("test");
+        user1.setId(1L);
+        user1.setEmail("test@tet");
+        User user2=user;
+        assertTrue(user.equals(user1));
+        assertTrue(user.equals(user2));
+        assertEquals(user.hashCode(),user1.hashCode());
+        assertFalse(user.equals(null));
+        assertFalse(user.equals(new Message()));
+        user1.setId(2L);
+        assertFalse(user.equals(user1));
+        user1.setId(1L);
+        user1.setUsername("fwfw");
+        assertFalse(user.equals(user1));
+        user1.setUsername("test");
+        user1.setEmail("fwqfqw");
+        assertFalse(user.equals(user1));
+        user1.setEmail("test@test");
+        assertFalse(user.equals(user1));
+    }
+
     @After
     public void after() {
         roles.clear();
     }
+
 }

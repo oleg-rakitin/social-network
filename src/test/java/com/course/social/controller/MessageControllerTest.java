@@ -29,6 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+import org.springframework.web.util.NestedServletException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,11 +60,12 @@ public class MessageControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+    @Test(expected = NestedServletException.class)
     public void likeTest() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(new HttpHeaderMockMvcConfigurer()).build();
         this.mockMvc.perform(get("/messages/{message}/like", 2)
-                .header("test", "test").param("referer", "test").with(csrf()))
+                .header("test", "test")
+                .param("referer", "http://localhost:8080/home?").with(csrf()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
     }
@@ -121,26 +123,26 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void feedback4(){
+    public void feedback4() {
         assertEquals("greeting", messageController.feedback(new HashMap<>(), null, "", "",
                 "1", ""));
     }
 
     @Test
-    public void feedback5(){
+    public void feedback5() {
         assertEquals("greeting", messageController.feedback(new HashMap<>(), null, "", "",
                 "", "1"));
     }
 
     @Test
-    public void like(){
+    public void like() {
         User user = new User();
         Set<User> likes = new HashSet<>();
         likes.add(user);
         Message message = new Message();
         message.setLikes(likes);
         RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
-        messageController.like(user,message,redirectAttributes,"http://localhost:8080/main");
+        messageController.like(user, message, redirectAttributes, "http://localhost:8080/main");
     }
 
     public class HttpHeaderMockMvcConfigurer extends MockMvcConfigurerAdapter {

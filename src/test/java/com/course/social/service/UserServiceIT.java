@@ -81,7 +81,8 @@ public class UserServiceIT {
         user1.setPassword("tete");
         userRepo.save(user1);
         userSevice.subscribe(user1, user);
-        assertEquals(1, userRepo.findByUsername("test_user")
+        User user2 = userRepo.findByUsername("test_user");
+        assertEquals(1, user2
                 .getSubscribers().size());
         userSevice.unsubscribe(user1, user);
         userRepo.delete(user1);
@@ -95,10 +96,12 @@ public class UserServiceIT {
         user1.setPassword("tete");
         userRepo.save(user1);
         userSevice.subscribe(user1, user);
-        assertEquals(1, userRepo.findByUsername("test_user")
+        User user2 = userRepo.findByUsername("test_user");
+        assertEquals(1, user2
                 .getSubscribers().size());
         userSevice.unsubscribe(user1, user);
-        assertEquals(0, userRepo.findByUsername("test_user")
+        user2 = userRepo.findByUsername("test_user");
+        assertEquals(0, user2
                 .getSubscribers().size());
         userRepo.delete(user1);
     }
