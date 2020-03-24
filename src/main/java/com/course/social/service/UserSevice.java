@@ -50,7 +50,11 @@ public class UserSevice implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            return false;
+        }
 
         userRepo.save(user);
 
@@ -106,7 +110,7 @@ public class UserSevice implements UserDetailsService {
             }
         }
 
-        if(!user.getRoles().contains(Role.USER)){
+        if (!user.getRoles().contains(Role.USER)) {
             Set<Role> roles1 = user.getRoles();
             roles1.add(Role.USER);
             user.setRoles(roles1);
@@ -115,11 +119,11 @@ public class UserSevice implements UserDetailsService {
         userRepo.save(user);
     }
 
-    public boolean updateProfile(User user,String oldPassword, String newPassword, String email) {
+    public boolean updateProfile(User user, String oldPassword, String newPassword, String email) {
         String userEmail = user.getEmail();
 
         String newPassEncoded = passwordEncoder.encode(oldPassword);
-        if(!passwordEncoder.matches(oldPassword,user.getPassword())){
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             return false;
         }
 
@@ -140,9 +144,9 @@ public class UserSevice implements UserDetailsService {
 
         userRepo.save(user);
 
-        if (isEmailChanged) {
-            sendMessage(user);
-        }
+        //if (isEmailChanged) {
+        //   sendMessage(user);
+        // }
         return true;
     }
 

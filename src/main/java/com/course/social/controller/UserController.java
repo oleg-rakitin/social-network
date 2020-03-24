@@ -20,7 +20,7 @@ public class UserController {
 
    // @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public String userList(Model model, @AuthenticationPrincipal User user) {
+    public String userList(Model model, User user) {
         model.addAttribute("users", userSevice.findAll());
         model.addAttribute("user", user);
 

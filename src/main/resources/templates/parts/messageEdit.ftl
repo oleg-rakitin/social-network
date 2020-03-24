@@ -7,7 +7,7 @@
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="text" pattern="[a-zA-Z0-9а-яА-Я ]{1,1024}" class="form-control ${(textError??)?string('is-invalid', '')}"
-                       value="<#if message??>${message.text}</#if>" name="text" placeholder="О чем хотите рассказать" required />
+                       value="<#if message??>${message.text}</#if>" name="text" placeholder="О чем хотите рассказать"  />
                 <#if textError??>
                     <div class="invalid-feedback">
                         ${textError}
@@ -16,7 +16,7 @@
             </div>
             <div class="form-group">
                 <input type="text" pattern="[a-zA-Z0-9а-яА-Я ]{1,32}" class="form-control"
-                       value="<#if message??>${message.tag}</#if>" name="tag" placeholder="“Введите ваш тэг" required />
+                       value="<#if message??>${message.tag}</#if>" name="tag" placeholder="“Введите ваш тэг"  />
                 <#if tagError??>
                     <div class="invalid-feedback">
                         ${tagError}

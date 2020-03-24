@@ -48,24 +48,24 @@ public class MessageController {
 
 
     @GetMapping("/error")
-    public String error(Map<String, Object> model){
+    public String error(Map<String, Object> model) {
         return "redirect:/home";
     }
 
     @GetMapping("/home")
-    public String home(Map<String,Object> model,
-                       @AuthenticationPrincipal User user){
+    public String home(Map<String, Object> model,
+                       @AuthenticationPrincipal User user) {
         if (user != null) {
             model.put("username", user.getUsername());
             model.put("user", user);
         } else {
-            model.put("username","гость");
+            model.put("username", "гость");
         }
         return "greeting";
     }
 
     @GetMapping("/feedback")
-    public String feedback(Map<String,Object> model,
+    public String feedback(Map<String, Object> model,
                            @AuthenticationPrincipal User user,
                            @RequestParam("name") String name,
                            @RequestParam("email") String email,
@@ -80,7 +80,7 @@ public class MessageController {
             model.put("username", "гость");
         }
 
-        if(name.equals("")||email.equals("")||phone.equals("")||message.equals("")) {
+        if (name.equals("") || email.equals("") || phone.equals("") || message.equals("")) {
             model.put("errorFeedback", "ERROR!");
             return "greeting";
         }
@@ -93,7 +93,7 @@ public class MessageController {
 
         feedBackRepo.save(feedBack);
 
-        model.put("errorFeedback","SUCCESS");
+        model.put("errorFeedback", "SUCCESS");
 
         return "redirect:/";
     }
@@ -114,7 +114,7 @@ public class MessageController {
     public String main(
             @RequestParam(required = false, defaultValue = "") String filter,
             Model model,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             @AuthenticationPrincipal User user
     ) {
         Page<MessageDto> page = messageService.messageList(pageable, filter, user);
@@ -134,7 +134,7 @@ public class MessageController {
             BindingResult bindingResult,
             Model model,
             @RequestParam(required = false, defaultValue = "") String filter,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         message.setAuthor(user);
@@ -163,7 +163,7 @@ public class MessageController {
             File uploadDir = new File(uploadPath);
 
             if (!uploadDir.exists()) {
-                uploadDir.mkdir();
+                uploadDir.mkdir();// do something
             }
 
             String uuidFile = UUID.randomUUID().toString();
@@ -181,7 +181,7 @@ public class MessageController {
             @PathVariable User author,
             Model model,
             @RequestParam(required = false) Message message,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<MessageDto> page = messageService.messageListForUser(pageable, currentUser, author);
 
@@ -207,8 +207,7 @@ public class MessageController {
             @RequestParam("tag") String tag,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        if (message.getAuthor().equals(currentUser)
-                ||currentUser.getRoles().contains(Role.ADMIN)) {
+        if (message.getAuthor().getUsername().equals(currentUser.getUsername()) || currentUser.getRoles().contains(Role.ADMIN)) {
             if (!StringUtils.isEmpty(text)) {
                 message.setText(text);
             }
@@ -240,7 +239,12 @@ public class MessageController {
             likes.add(currentUser);
         }
 
-        UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();
+        UriComponents components = null;
+        if (referer != null) {
+            components = UriComponentsBuilder.fromHttpUrl(referer).build();
+        } else {
+            components = UriComponentsBuilder.fromUriString("nulled").build();
+        }
 
         components.getQueryParams()
                 .entrySet()

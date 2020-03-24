@@ -20,7 +20,7 @@ public class MailConfig {
     private String password;
 
     @Value("${spring.mail.port}")
-    private int port;
+    private String port;
 
     @Value("${spring.mail.protocol}")
     private String protocol;
@@ -33,7 +33,7 @@ public class MailConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(host);
-        mailSender.setPort(port);
+        mailSender.setPort(465);
         mailSender.setUsername(username);
         mailSender.setPassword(password);
 

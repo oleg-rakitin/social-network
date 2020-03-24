@@ -6,7 +6,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Old Password:</label>
                 <div class="col-sm-6">
-                    <input type="password" name="oldPassword" class="form-control" ${(oldPasswordError??)?string( 'is-invalid', '')} placeholder="Enter old password" required/>
+                    <input type="password" name="oldPassword" class="form-control" ${(oldPasswordError??)?string( 'is-invalid', '')} placeholder="Enter old password" />
                     <#if oldPasswordError??>
                             ${oldPasswordError}
                     </#if>
@@ -15,7 +15,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">New password:</label>
                 <div class="col-sm-6">
-                    <input type="password" name="newPassword" class="form-control" placeholder="Enter new password" required/>
+                    <input type="password" name="newPassword" class="form-control" placeholder="Enter new password" />
                 </div>
             </div>
             <div class="form-group row">

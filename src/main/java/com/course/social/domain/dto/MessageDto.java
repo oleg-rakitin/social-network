@@ -4,6 +4,8 @@ import com.course.social.domain.Message;
 import com.course.social.domain.User;
 import com.course.social.util.MessageHelper;
 
+import java.util.Objects;
+
 public class MessageDto {
     private Long id;
     private String text;
@@ -59,7 +61,10 @@ public class MessageDto {
     public String toString() {
         return "MessageDto{" +
                 "id=" + id +
+                ", text='" + text + '\'' +
+                ", tag='" + tag + '\'' +
                 ", author=" + author +
+                ", filename='" + filename + '\'' +
                 ", likes=" + likes +
                 ", meLiked=" + meLiked +
                 '}';

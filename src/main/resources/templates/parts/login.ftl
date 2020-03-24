@@ -3,7 +3,7 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">User Name :</label>
         <div class="col-sm-6">
-            <input type="text" pattern="[a-zA-Z0-9]{8,64}" title="Entered invalid login!" name="username" value="<#if user??>${user.username}</#if>"
+            <input type="text" pattern="[a-zA-Z0-9]{8,64}" title="Entered invalid login!" name="username" value="<#if user??><#if user.username??>${user.username}</#if></#if>"
                    class="form-control ${(usernameError??)?string('is-invalid', '')}"
                    placeholder="User name" />
             <#if usernameError??>
@@ -44,7 +44,7 @@
             <label class="col-sm-2 col-form-label">Email:</label>
             <div class="col-sm-6">
                 <input type="email"
-                pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])" name="email" value="<#if user??>${user.email}</#if>"
+                pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])" name="email" value="<#if user??><#if user.email??>${user.email}</#if></#if>"
                        class="form-control ${(emailError??)?string('is-invalid', '')}"
                        placeholder="some@some.com" />
                 <#if emailError??>

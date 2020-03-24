@@ -2,6 +2,7 @@ package com.course.social.domain;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "feedback")
@@ -22,6 +23,14 @@ public class FeedBack  {
 
     @Column(name = "phone")
     private String phone;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -58,7 +67,8 @@ public class FeedBack  {
     @Override
     public String toString() {
         return "FeedBack{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", message='" + message + '\'' +
                 ", phone='" + phone + '\'' +
