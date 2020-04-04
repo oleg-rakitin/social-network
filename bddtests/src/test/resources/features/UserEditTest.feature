@@ -1,7 +1,7 @@
-Feature: subscribe/unsubscribe
+Feature: user edit
 
   @regression
-  Scenario: subscribe
+  Scenario: user edit
     Given clear database
     Given add message to database with id "45" and text "auto_added_post"
     Given get login by "testuserregister"
